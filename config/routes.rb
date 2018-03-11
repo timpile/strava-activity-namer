@@ -9,5 +9,6 @@ Rails.application.routes.draw do
     controllers: {
       omniauth_callbacks: 'users/omniauth_callbacks'
     }
+  get 'activity/:id', to: 'pages#activity', as: 'activity'
   root to: "pages#home"
 end

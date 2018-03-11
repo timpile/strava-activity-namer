@@ -1,0 +1,21 @@
+<h1>Activity</h1>
+<h4>
+  Id
+  | Lap
+  | Name
+  | Distance (In meters)
+  | Time (In seconds)
+  | Speed
+  | Cadence
+</h4>
+<% @activity_laps.each do |lap| %>
+  <p>
+    <%= lap["id"] %>
+    | <%= lap["lap_index"] %>
+    | <%= lap["name"] %>
+    | <%= lap["distance"] %>
+    | <%= lap["elapsed_time"] %>
+    | <%= lap["average_speed"] %>
+    | <%= lap["average_cadence"] %>
+  </p>
+<% end %>
