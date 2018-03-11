@@ -1,17 +1,12 @@
 class PagesController < ApplicationController
-  before_action :set_client
 
   def home
-    @activities = @client.list_athlete_activities
+    @athlete = current_user.strava_client.retrieve_current_athlete
+    @activities = current_user.strava_client.list_athlete_activities(after: 10.days.ago, before: 0.days.ago, per_page: 10)
   end
 
   def activity
-    @activity_laps = @client.list_activity_laps(params[:id])
+    @activity_laps = current_user.strava_client.list_activity_laps(params[:id])
   end
 
-  private
-
-  def set_client
-    @client = Strava::Api::V3::Client.new(:access_token => current_user.token)
-  end
 end

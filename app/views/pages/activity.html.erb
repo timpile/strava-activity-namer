@@ -1,21 +1,17 @@
 <h1>Activity</h1>
 <h4>
   Id
-  | Lap
   | Name
-  | Distance (In meters)
-  | Time (In seconds)
-  | Speed
-  | Cadence
+  | Distance
+  | Time
+  | Pace
 </h4>
 <% @activity_laps.each do |lap| %>
   <p>
     <%= lap["id"] %>
-    | <%= lap["lap_index"] %>
     | <%= lap["name"] %>
-    | <%= lap["distance"] %>
-    | <%= lap["elapsed_time"] %>
-    | <%= lap["average_speed"] %>
-    | <%= lap["average_cadence"] %>
+    | <%= conversion_helper("meters","miles",lap["distance"]) %> miles
+    | <%= conversion_helper("seconds","minutes",lap["elapsed_time"]) %> minutes
+    | <%= conversion_helper("mps","pace",lap["average_speed"]) %> pace
   </p>
 <% end %>

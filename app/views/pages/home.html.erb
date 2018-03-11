@@ -1,24 +1,22 @@
 <h1>My Activities</h1>
 <h4>
   Id
-  | Date
   | Type
+  | Date
   | Name
-  | Description
-  | Distance (In meters)
-  | Time (In seconds)
-  | Elevation Gain
+  | Distance
+  | Time
+  | Pace
 </h4>
 <% @activities.each do |activity| %>
   <p>
     <%= activity["id"] %>
-    | <%= activity["start_date_local"] %>
     | <%= activity["type"] %>
+    | <%= activity["start_date_local"].to_time.strftime("%Y-%m-%d %I:%M%p") %>
     | <%= activity["name"] %>
-    | <%= activity["description"] %>
-    | <%= activity["distance"] %>
-    | <%= activity["elapsed_time"] %>
-    | <%= activity["total_elevation_gain"] %>
+    | <%= conversion_helper("meters","miles",activity["distance"]) %> miles
+    | <%= conversion_helper("seconds","minutes",activity["elapsed_time"]) %> minutes
+    | <%= conversion_helper("mps","pace",activity["average_speed"]) %> pace
     | <%= link_to "View", activity_path(activity["id"]) %>
   </p>
 <% end %>

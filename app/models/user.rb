@@ -14,4 +14,9 @@ class User < ApplicationRecord
      # user.image = auth.info.image # assuming the user model has an image
    end
  end
+
+ def strava_client
+   @strava_client ||= Strava::Api::V3::Client.new(:access_token => self.token)
+ end
+
 end
