@@ -1,12 +1,14 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def strava
-    @user = User.from_omniauth(request.env["omniauth.auth"])
+    @auth = request.env["omniauth.auth"]
+    @user = User.from_omniauth(@auth)
 
     if @user.persisted?
+      @user.token = @auth.credentials.token
       sign_in_and_redirect @user, event: :authentication #this will throw if @user is not activated
       set_flash_message(:notice, :success, kind: "Strava") if is_navigational_format?
     else
-      session["devise.strava_data"] = request.env["omniauth.auth"]
+      session["devise.strava_data"] = @auth
       redirect_to new_user_registration_url
     end
   end
