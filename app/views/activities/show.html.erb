@@ -1,0 +1,17 @@
+<h1>Activity</h1>
+<h4>
+  Id
+  | Name
+  | Distance
+  | Time
+  | Pace
+</h4>
+<% @activity.laps.each do |lap| %>
+  <p>
+    <%= lap.strava_id %>
+    | <%= lap.name %>
+    | <%= conversion_helper("meters","miles",lap.distance) %> miles
+    | <%= conversion_helper("seconds","minutes",lap.elapsed_time) %> minutes
+    | <%= conversion_helper("mps","pace",lap.average_speed) %> pace
+  </p>
+<% end %>

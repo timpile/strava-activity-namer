@@ -12,13 +12,13 @@
 </h4>
 <% @activities.each do |activity| %>
   <p>
-    <%= activity["id"] %>
-    | <%= activity["type"] %>
-    | <%= activity["start_date_local"].to_time.strftime("%Y-%m-%d %I:%M%p") %>
-    | <%= activity["name"] %>
-    | <%= conversion_helper("meters","miles",activity["distance"]) %> miles
-    | <%= conversion_helper("seconds","minutes",activity["elapsed_time"]) %> minutes
-    | <%= conversion_helper("mps","pace",activity["average_speed"]) %> pace
-    | <%= link_to "View", activity_path(activity["id"]) %>
+    <%= activity.strava_id %>
+    | <%= activity.activity_type %>
+    | <%= activity.start_date_local.strftime("%Y-%m-%d %I:%M%p") %>
+    | <%= activity.name %>
+    | <%= conversion_helper("meters","miles",activity.distance) %> miles
+    | <%= conversion_helper("seconds","minutes",activity.elapsed_time) %> minutes
+    | <%#= conversion_helper("mps","pace",activity.average_speed) %>
+    | <%= link_to "View", activity_path(activity.strava_id) %>
   </p>
 <% end %>
