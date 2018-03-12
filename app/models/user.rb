@@ -21,4 +21,8 @@ class User < ApplicationRecord
    @strava_client ||= Strava::Api::V3::Client.new(:access_token => self.token)
  end
 
+ def last_activity_date
+   activities.maximum(:start_date_local) || 3.years.ago
+ end
+
 end
