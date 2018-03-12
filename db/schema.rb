@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 20180311215344) do
     t.bigint "strava_id"
     t.string "name"
     t.string "activity_type"
-    t.string "string"
     t.datetime "start_date_local"
     t.integer "elapsed_time"
     t.text "description"
