@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     }
   resources :activities, only: [:show]
   get 'refresh', to: 'activities#refresh', as: 'refresh_activities'
+  get 'refresh/:id', to: 'laps#refresh', as: 'refresh_laps'
   root to: "pages#home"
 end
