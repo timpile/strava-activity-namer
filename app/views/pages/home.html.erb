@@ -8,6 +8,8 @@
     | <%= activity.new_name %>
     | <%= conversion_helper("seconds","minutes",activity.elapsed_time) %> minutes
     | <%= link_to "View Laps", activity_path(activity.strava_id) %>
-    <%#= @data.percentile_rank(activity.elapsed_time) %>
+    | <%= link_to "Refresh Laps", refresh_laps_path(activity) %>
+    | <%= @distance_data.percentile_rank(activity.distance).round(1) %>
+    | <%= @speed_data.percentile_rank(activity.average_speed).round(1) %>
   </p>
 <% end %>

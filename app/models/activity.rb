@@ -1,10 +1,10 @@
 class Activity < ApplicationRecord
   include ApplicationHelper
   belongs_to :user
-  has_many :laps
+  has_many :laps, dependent: :destroy
 
   def self.data_set
-    where("start_date_local >= ?", 60.days.ago)
+    where("start_date_local >= ? AND activity_type = ?", 60.days.ago, "Run")
   end
 
   def self.data_analysis field
