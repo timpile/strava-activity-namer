@@ -5,7 +5,6 @@ class CreateActivities < ActiveRecord::Migration[5.1]
       t.bigint :strava_id
       t.string :name
       t.string :activity_type
-      t.string :string
       t.timestamp :start_date_local
       t.integer :elapsed_time
       t.text :description
