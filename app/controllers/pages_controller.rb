@@ -1,8 +1,8 @@
 class PagesController < ApplicationController
 
   def home
-    @athlete = current_user.strava_client.retrieve_current_athlete
-    @activities = current_user.activities.order("strava_id DESC")
+    @activities = current_user.activities.data_set.extend(DescriptiveStatistics).order("strava_id DESC")
+    @data = current_user.activities.data_analysis("elapsed_time")
   end
 
 end

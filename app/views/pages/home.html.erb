@@ -1,24 +1,13 @@
 <h1>My Activities</h1>
 <%= link_to "Refresh Data", refresh_activities_path %>
 <%= current_user.last_activity_date %>
-<h4>
-  Id
-  | Type
-  | Date
-  | Name
-  | Distance
-  | Time
-  | Pace
-</h4>
+<hr>
 <% @activities.each do |activity| %>
   <p>
-    <%= activity.strava_id %>
-    | <%= activity.activity_type %>
-    | <%= activity.start_date_local.strftime("%Y-%m-%d %I:%M%p") %>
-    | <%= activity.name %>
-    | <%= conversion_helper("meters","miles",activity.distance) %> miles
+    <%= activity.start_date_local.strftime("%Y-%m-%d") %>
+    | <%= activity.new_name %>
     | <%= conversion_helper("seconds","minutes",activity.elapsed_time) %> minutes
-    | <%#= conversion_helper("mps","pace",activity.average_speed) %>
-    | <%= link_to "View", activity_path(activity.strava_id) %>
+    | <%= link_to "View Laps", activity_path(activity.strava_id) %>
+    <%#= @data.percentile_rank(activity.elapsed_time) %>
   </p>
 <% end %>
