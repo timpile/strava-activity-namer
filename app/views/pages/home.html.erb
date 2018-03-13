@@ -9,7 +9,12 @@
     | <%= conversion_helper("seconds","minutes",activity.elapsed_time) %> minutes
     | <%= link_to "View Laps", activity_path(activity.strava_id) %>
     | <%= link_to "Refresh Laps", refresh_laps_path(activity) %>
-    | <%= @distance_data.percentile_rank(activity.distance).round(1) %>
-    | <%= @speed_data.percentile_rank(activity.average_speed).round(1) %>
+    | <%= activity.distance %>
+    | <%= activity.distance_percentile_rank %>
+
+    <%# @speed_data = current_user.activities.data_analysis("average_speed") %>
+    <%# @distance_data = current_user.activities.distance_data %>
+    <%#= @distance_data.percentile_rank(activity.distance).round(1) %>
+    <%#= @speed_data.percentile_rank(activity.average_speed).round(1) %>
   </p>
 <% end %>

@@ -10,15 +10,17 @@ module ApplicationHelper
     end
   end
 
-  def day_part time
-    t = time.to_i
-    if t <= morning(time)
+  def day_part datetime
+    t = datetime
+    if t <= morning(datetime)
       "morning"
-    elsif t <= noon(time)
+    elsif t <= noon(datetime) && weekend?(datetime)
+      ""
+    elsif t <= noon(datetime)
       "lunch"
-    elsif t <= evening(time)
+    elsif t <= evening(datetime)
       "afternoon"
-    elsif t <= night(time)
+    elsif t <= night(datetime)
       "evening"
     else
       "night"
@@ -26,19 +28,23 @@ module ApplicationHelper
   end
 
   def morning datetime
-    datetime.change(:hour => 11).to_i
+    datetime.change(:hour => 11)
   end
 
   def noon datetime
-    datetime.change(:hour => 13).to_i
+    datetime.change(:hour => 13)
   end
 
   def evening datetime
-    datetime.change(:hour => 15).to_i
+    datetime.change(:hour => 15)
   end
 
   def night datetime
-    datetime.change(:hour => 20).to_i
+    datetime.change(:hour => 20)
+  end
+
+  def weekend? datetime
+    ["6","7"].include?(datetime.strftime("%u"))
   end
 
 end
