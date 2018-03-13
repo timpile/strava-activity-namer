@@ -16,35 +16,48 @@ class Activity < ApplicationRecord
     self.save!
   end
 
-  # Eventually refactor these methods into module?
   def distance_bucket
-    b = distance_buckets[0]
-    distance_buckets.each do |bucket|
-      b = bucket if distance_percentile_rank > bucket[0] && distance_percentile_rank <= bucket[1]
-    end
-    return b
+    distance_buckets.find {|bucket| distance_percentile_rank > bucket[:low] && distance_percentile_rank <= bucket[:high]}
   end
 
-  def speed_distance_descriptor
-    "#{distance_bucket[2]} #{day_part(start_date_local)} #{activity_type.downcase} at a(n) #{speed_bucket[2]} pace"
+  def speed_data
+    @speed_data ||= user.activities.data_set.pluck(:average_speed).extend(DescriptiveStatistics)
   end
 
   def speed_percentile_rank
-    user.activities.data_set.where("distance_percentile_rank > ? AND distance_percentile_rank <= ?", distance_bucket[0], distance_bucket[1]).pluck(:average_speed).extend(DescriptiveStatistics).percentile_rank(average_speed).round(1)
+    speed_data.percentile_rank(average_speed).round(1)
   end
 
   def speed_bucket
-    s = speed_buckets[0]
-    speed_buckets.each do |bucket|
-      s = bucket if speed_percentile_rank > bucket[0] && speed_percentile_rank <= bucket[1]
-    end
-    return s
+    speed_buckets.find {|bucket| speed_percentile_rank > bucket[:low] && speed_percentile_rank <= bucket[:high]}
   end
 
-  def new_name
-    # {start_date_local.strftime("%A")}
-    "#{speed_distance_descriptor.capitalize}.
-    (About #{conversion_helper("meters","miles",distance)} miles)"
+  def distance_desc
+    a_or_an("#{distance_bucket[:adverb]} #{distance_bucket[:adj]}")
+  end
+
+  def distance_in_words
+    conversion_helper("meters","miles",distance)
+  end
+
+  def speed_desc
+    a_or_an("#{speed_bucket[:adverb]} #{speed_bucket[:adj]}")
+  end
+
+  def speed_in_words
+    conversion_helper("mps","pace",average_speed)
+  end
+
+  def time_of_day_in_words
+    day_part(start_date_local)
+  end
+
+  def verb
+    activity_type
+  end
+
+  def sentence_generator
+    "#{distance_desc} #{time_of_day_in_words} #{verb} at #{speed_desc} pace (#{distance_in_words} @ #{speed_in_words})".downcase.humanize
   end
 
 end

@@ -2,11 +2,15 @@ module ApplicationHelper
 
   def conversion_helper from, to, value = 1
     if from == "meters" && to == "miles"
-      (value * 0.000621371).round(1)
+      "#{(value * 0.000621371).round(1)} miles"
     elsif from == "seconds" && to == "minutes"
       (value / 60.0).round(1)
     elsif from == "mps" && to == "pace"
-      (26.8224 / value).round(1)
+      time = (26.8224 / value)
+      min = time.floor
+      sec = ((time - time.floor) * 60).round(0)
+      format_sec = sec > 9 ? sec : "0#{sec}"
+      "#{min}:#{format_sec} pace"
     end
   end
 
@@ -49,21 +53,33 @@ module ApplicationHelper
 
   def distance_buckets
     [
-      [0,0,"N/A"],
-      [0,20,"short"],
-      [20,80,"medium"],
-      [80,100,"long"]
+      {endurance: nil, low: 0, high: 0, adj: "", adverb: ""},
+      {endurance: 1, low: 0, high: 7, adj: "short", adverb: "super"},
+      {endurance: 2, low: 7, high: 20, adj: "short", adverb: ""},
+      {endurance: 3, low: 20, high: 80, adj: "typical", adverb: ""},
+      {endurance: 4, low: 80, high: 95, adj: "long", adverb: ""},
+      {endurance: 5, low: 95, high: 100, adj: "longer", adverb: "slightly"},
     ]
   end
 
   def speed_buckets
     [
-      [0,0,"N/A"],
-      [0,20,"slow"],
-      [20,80,"average"],
-      [80,95,"fast"],
-      [95,100,"really fast"],
+      {intensity: nil, low: 0, high: 0, adj: "", adverb: ""},
+      {intensity: 1, low: 99, high: 100, adj: "killer", adverb: ""},
+      {intensity: 2, low: 95, high: 99, adj: "fast", adverb: ""},
+      {intensity: 3, low: 80, high: 95, adj: "quick", adverb: ""},
+      {intensity: 4, low: 20, high: 80, adj: "normal", adverb: ""},
+      {intensity: 5, low: 10, high: 20, adj: "easy", adverb: ""},
+      {intensity: 6, low: 0, high: 10, adj: "easy", adverb: "super"},
     ]
+  end
+
+  def a_or_an word
+    if word.strip[0].match(Regexp.new('[aeiou]')).nil?
+      "a #{word}"
+    else
+      "an #{word}"
+    end
   end
 
 end
