@@ -47,4 +47,23 @@ module ApplicationHelper
     ["6","7"].include?(datetime.strftime("%u"))
   end
 
+  def distance_buckets
+    [
+      [0,0,"N/A"],
+      [0,20,"short"],
+      [20,80,"medium"],
+      [80,100,"long"]
+    ]
+  end
+
+  def speed_buckets
+    [
+      [0,0,"N/A"],
+      [0,20,"slow"],
+      [20,80,"average"],
+      [80,95,"fast"],
+      [95,100,"really fast"],
+    ]
+  end
+
 end

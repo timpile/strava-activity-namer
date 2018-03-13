@@ -21,11 +21,6 @@ class ActivitiesController < ApplicationController
       )
       act.set_distance_percentile_rank!
     end
-    null_activities = Activity.where("distance_percentile_rank IS NULL")
-    null_activities.each do |activity|
-      activity.set_distance_percentile_rank!
-    end
-
     redirect_to root_url
   end
 

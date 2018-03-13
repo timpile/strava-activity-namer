@@ -11,38 +11,40 @@ class Activity < ApplicationRecord
     data_set.pluck(:distance).extend(DescriptiveStatistics)
   end
 
-  def self.speed_data
-    data_set.pluck(:average_speed).extend(DescriptiveStatistics)
-  end
-
   def set_distance_percentile_rank!
     self.distance_percentile_rank = user.activities.distance_data.percentile_rank(distance)
     self.save!
   end
 
   # Eventually refactor these methods into module?
-  def distance_descriptor
-    if distance_percentile_rank.blank?
-      ""
-    elsif distance_percentile_rank < 20
-      "short"
-    elsif distance_percentile_rank < 80
-      ""
-    elsif distance_percentile_rank < 95
-      "long"
-    else
-      "really long"
+  def distance_bucket
+    b = distance_buckets[0]
+    distance_buckets.each do |bucket|
+      b = bucket if distance_percentile_rank > bucket[0] && distance_percentile_rank <= bucket[1]
     end
+    return b
+  end
+
+  def speed_distance_descriptor
+    "#{distance_bucket[2]} #{day_part(start_date_local)} #{activity_type.downcase} at a(n) #{speed_bucket[2]} pace"
+  end
+
+  def speed_percentile_rank
+    user.activities.data_set.where("distance_percentile_rank > ? AND distance_percentile_rank <= ?", distance_bucket[0], distance_bucket[1]).pluck(:average_speed).extend(DescriptiveStatistics).percentile_rank(average_speed).round(1)
+  end
+
+  def speed_bucket
+    s = speed_buckets[0]
+    speed_buckets.each do |bucket|
+      s = bucket if speed_percentile_rank > bucket[0] && speed_percentile_rank <= bucket[1]
+    end
+    return s
   end
 
   def new_name
     # {start_date_local.strftime("%A")}
-    "
-    #{distance_descriptor.capitalize}
-    #{day_part(start_date_local)}
-    #{activity_type.downcase}
-    for #{conversion_helper("meters","miles",distance)} miles
-    "
+    "#{speed_distance_descriptor.capitalize}.
+    (About #{conversion_helper("meters","miles",distance)} miles)"
   end
 
 end
