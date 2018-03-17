@@ -9,8 +9,10 @@
   </head>
 
   <body>
-    <%= link_to "Home", root_path %>
-    | <%= link_to "Logout", destroy_user_session_path, method: :delete %>
-    <%= yield %>
+    <div class="container">
+      <%= link_to "Home", root_path %>
+      | <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+      <%= yield %>
+    </div>
   </body>
 </html>
