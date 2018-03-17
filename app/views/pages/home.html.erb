@@ -2,11 +2,22 @@
 <%= link_to "Refresh Data", refresh_activities_path %>
 <%= current_user.last_activity_date %>
 <hr>
-<% @activities.each do |activity| %>
-  <p>
-    <%= activity.start_date_local.strftime("%Y-%m-%d") %>
-    | <%= activity.sentence_generator %>
-    <%#= link_to "View Laps", activity_path(activity.strava_id) %>
-    <%#= link_to "Refresh Laps", refresh_laps_path(activity) %>
-  </p>
-<% end %>
+
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Generated Activity Name</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @activities.each do |activity| %>
+    <tr>
+      <th scope="row"><%= activity.start_date_local.strftime("%Y-%m-%d") %></th>
+      <td><%= activity.sentence_generator %></td>
+      <%#= link_to "View Laps", activity_path(activity.strava_id) %>
+      <%#= link_to "Refresh Laps", refresh_laps_path(activity) %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
