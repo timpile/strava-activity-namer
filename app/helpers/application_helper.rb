@@ -1,5 +1,15 @@
 module ApplicationHelper
 
+  def nav_helper
+    (link_to "Home", root_path) +
+    "| " + (link_to "Activities", activities_path) +
+    if current_user
+      "| " + (link_to "Logout", destroy_user_session_path, method: :delete)
+    else
+      "| " + (link_to "Login", new_user_session_path)
+    end.html_safe
+  end
+
   def conversion_helper from, to, value = 1
     if from == "meters" && to == "miles"
       "#{(value * 0.000621371).round(1)} miles"

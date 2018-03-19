@@ -1,5 +1,9 @@
 class ActivitiesController < ApplicationController
 
+  def index
+    @activities = current_user.activities.data_set.extend(DescriptiveStatistics).order("strava_id DESC")
+  end
+
   def show
     @activity = Activity.includes(:laps).find_by_strava_id(params[:id])
   end

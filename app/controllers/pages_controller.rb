@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:home]
 
   def home
-    @activities = current_user.activities.data_set.extend(DescriptiveStatistics).order("strava_id DESC")
   end
 
 end

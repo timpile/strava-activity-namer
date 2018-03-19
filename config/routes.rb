@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     controllers: {
       omniauth_callbacks: 'users/omniauth_callbacks'
     }
-  resources :activities, only: [:show]
+  resources :activities, only: [:index, :show]
   get 'refresh', to: 'activities#refresh', as: 'refresh_activities'
   get 'refresh/:id', to: 'laps#refresh', as: 'refresh_laps'
   root to: "pages#home"
