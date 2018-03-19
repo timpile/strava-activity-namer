@@ -2,7 +2,7 @@ module ApplicationHelper
 
   def nav_helper
     if current_user
-      (content_tag :li, (link_to "Activities", activities_path, class: "nav-link"), class: "nav-item active") +
+      (content_tag :li, (link_to "My Activities", activities_path, class: "nav-link"), class: "nav-item active") +
       (content_tag :li, (link_to "Logout", destroy_user_session_path, method: :delete, class: "nav-link"), class: "nav-item active")
     else
       (content_tag :li, (link_to "Login", new_user_session_path, class: "nav-link"), class: "nav-item active")
