@@ -1,13 +1,13 @@
 module ApplicationHelper
 
   def nav_helper
-    (link_to "Home", root_path) +
-    "| " + (link_to "Activities", activities_path) +
     if current_user
-      "| " + (link_to "Logout", destroy_user_session_path, method: :delete)
+      (content_tag :li, (link_to "Activities", activities_path, class: "nav-link"), class: "nav-item active") +
+      (content_tag :li, (link_to "Logout", destroy_user_session_path, method: :delete, class: "nav-link"), class: "nav-item active")
     else
-      "| " + (link_to "Login", new_user_session_path)
-    end.html_safe
+      (content_tag :li, (link_to "Login", new_user_session_path, class: "nav-link"), class: "nav-item active") +
+      (content_tag :li, (link_to "Register", new_user_registration_path, class: "nav-link"), class: "nav-item active")
+    end
   end
 
   def conversion_helper from, to, value = 1
