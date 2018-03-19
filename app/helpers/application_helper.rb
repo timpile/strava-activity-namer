@@ -5,8 +5,7 @@ module ApplicationHelper
       (content_tag :li, (link_to "Activities", activities_path, class: "nav-link"), class: "nav-item active") +
       (content_tag :li, (link_to "Logout", destroy_user_session_path, method: :delete, class: "nav-link"), class: "nav-item active")
     else
-      (content_tag :li, (link_to "Login", new_user_session_path, class: "nav-link"), class: "nav-item active") +
-      (content_tag :li, (link_to "Register", new_user_registration_path, class: "nav-link"), class: "nav-item active")
+      (content_tag :li, (link_to "Login", new_user_session_path, class: "nav-link"), class: "nav-item active")
     end
   end
 

@@ -25,7 +25,7 @@ class ActivitiesController < ApplicationController
       )
       act.set_distance_percentile_rank!
     end
-    redirect_to root_url
+    redirect_to activities_path
   end
 
 end
