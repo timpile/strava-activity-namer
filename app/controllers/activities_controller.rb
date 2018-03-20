@@ -8,6 +8,12 @@ class ActivitiesController < ApplicationController
     @activity = Activity.includes(:laps).find_by_strava_id(params[:id])
   end
 
+  def set_name
+    @activity = Activity.find(params[:id])
+    @activity.user.strava_client.update_an_activity(@activity.strava_id, name: @activity.sentence_generator)
+    redirect_to activities_path
+  end
+
   def refresh
     @activities = current_user.strava_client.list_athlete_activities(after: current_user.last_activity_date, per_page: 200)
     @activities.each do |activity|
