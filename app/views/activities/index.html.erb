@@ -1,20 +1,26 @@
 <h1>My Activities</h1>
-<%= link_to "Refresh Data", refresh_activities_path %>
-<%= current_user.last_activity_date %>
+<%= link_to "Refresh Data", refresh_activities_path, class: "btn btn-warning" %>
+Most Recent Activity Date: <%= current_user.last_activity_date %>
 <hr>
 
 <table class="table table-dark">
   <thead>
     <tr>
       <th scope="col">Date</th>
-      <th scope="col">Generated Activity Name</th>
+      <th scope="col">Stats</th>
+      <th scope="col">Name</th>
+      <th scope="col">Generated Name</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
   <% @activities.each do |activity| %>
     <tr>
       <th scope="row"><%= activity.start_date_local.strftime("%Y-%m-%d") %></th>
+      <td><%= activity.distance_pace_in_words %></td>
+      <td><%= activity.name %></td>
       <td><%= activity.sentence_generator %></td>
+      <td><%= link_to "Set this Name", set_name_path(activity), class: "btn btn-primary" %></td>
       <%#= link_to "View Laps", activity_path(activity.strava_id) %>
       <%#= link_to "Refresh Laps", refresh_laps_path(activity) %>
     </tr>

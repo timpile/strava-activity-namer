@@ -57,7 +57,11 @@ class Activity < ApplicationRecord
   end
 
   def sentence_generator
-    "#{distance_desc} #{time_of_day_in_words} #{verb} at #{speed_desc} pace (#{distance_in_words} @ #{speed_in_words})".downcase.humanize
+    "#{distance_desc} #{time_of_day_in_words} #{verb} at #{speed_desc} pace".downcase.humanize
+  end
+
+  def distance_pace_in_words
+    "#{distance_in_words} @ #{speed_in_words}".downcase.humanize
   end
 
 end
